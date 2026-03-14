@@ -44,9 +44,9 @@ function getHeelText(construction: HeelConstruction): string {
     'Heel Flap + Gusset':
       'Heel Flap (30 sts, 28 rows): [Sl1 wyib, K1] × 15; Sl1 wyif, P29. Heel Turn: work short rows to shape heel. Pick up gusset stitches and decrease back to stitch count.',
     'Short Row Heel':
-      'Work short rows over heel stitches without slipped-stitch reinforcement. Wrap & turn, or use German short row technique for cleaner results.',
+      'Work heel sts flat. Row 1 (RS): Sl1, knit to last st, turn (1 st unworked). Row 2 (WS): Sl1, purl to last st, turn (1 st unworked). Continue leaving 1 more st unworked each row until ~⅓ of sts remain in centre. Close gaps: RS rows — Sl1, K to gap, SSK (1 st each side of gap), M1L, turn. WS rows — Sl1, P to gap, P2tog, M1p, turn. Repeat until all sts worked. Stitch count restored.',
     'German Short Row Heel':
-      'Work short rows using German short row (double stitch) method. No wraps needed; creates a smooth, stretchy heel with minimal gaps.',
+      'Work heel sts flat. RS: Knit to end, turn. WS: Slip first st, pull yarn over needle to front to create double stitch (DS), purl to end, turn. Continue, leaving 1 more st before each DS. Close gaps: work to DS, knit/purl DS together with next st. No M1 needed — stitch count stays constant. Creates a clean, nearly gap-free heel.',
   };
   return texts[construction];
 }

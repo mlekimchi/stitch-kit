@@ -34,6 +34,7 @@ export function ProjectCard({ project, onSurvey }: Props) {
   };
 
   const [showMenu, setShowMenu] = useState(false);
+  const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   return (
     <div className={`bg-white rounded-2xl shadow-soft border overflow-hidden transition-all ${
@@ -71,9 +72,16 @@ export function ProjectCard({ project, onSurvey }: Props) {
                       Fill survey
                     </button>
                   )}
-                  <button onClick={() => { deleteProject(project.id); setShowMenu(false); }} className="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-cream-100">
-                    Delete
-                  </button>
+                  {!project.isComplete && (
+                    <button onClick={() => { setShowAbandonModal(true); setShowMenu(false); }} className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-cream-100">
+                      Abandon
+                    </button>
+                  )}
+                  {project.isComplete && (
+                    <button onClick={() => { deleteProject(project.id); setShowMenu(false); }} className="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-cream-100">
+                      Delete
+                    </button>
+                  )}
                 </div>
               </>
             )}
@@ -124,6 +132,31 @@ export function ProjectCard({ project, onSurvey }: Props) {
           </div>
         )}
       </div>
+
+      {/* Abandon confirmation modal */}
+      {showAbandonModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-6" onClick={() => setShowAbandonModal(false)}>
+          <div className="bg-white rounded-3xl shadow-card p-6 w-full max-w-xs text-center space-y-4" onClick={e => e.stopPropagation()}>
+            <span className="text-4xl block">🧦</span>
+            <h3 className="font-serif text-lg font-semibold text-gray-800">Abandon this sock?</h3>
+            <p className="text-sm text-gray-500">Your progress on <span className="font-medium text-gray-700">{project.name}</span> will be lost.</p>
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => setShowAbandonModal(false)}
+                className="flex-1 py-2.5 bg-cream-200 text-gray-600 font-medium rounded-2xl hover:bg-cream-300 transition-all"
+              >
+                Keep knitting
+              </button>
+              <button
+                onClick={() => { deleteProject(project.id); setShowAbandonModal(false); }}
+                className="flex-1 py-2.5 bg-rose-dusty text-white font-semibold rounded-2xl hover:bg-rose-dark active:scale-95 transition-all"
+              >
+                Abandon
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -40,7 +40,7 @@ export function App() {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 max-w-2xl mx-auto w-full px-4 pt-4 pb-24 overflow-y-auto">
+      <main className="flex-1 max-w-2xl mx-auto w-full px-4 pt-4 pb-nav-safe overflow-y-auto">
         {activeTab === 'counter'  && <CounterScreen />}
         {activeTab === 'pattern'  && <PatternScreen />}
         {activeTab === 'schema'   && <SchemaScreen />}

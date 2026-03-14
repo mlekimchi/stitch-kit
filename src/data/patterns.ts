@@ -417,7 +417,105 @@ export const HUSBANDS_SOCKS: Pattern = {
   heelType: 'heel-flap',
 };
 
-export const PRELOADED_PATTERNS: Pattern[] = [MY_SOCKS, MY_SOCKS_RIBBED, HUSBANDS_SOCKS];
+// ─── Pattern 4: My Socks: Short Row Heel ──────────────────────────────────────
+const myShortRowSocksSections: PatternSection[] = [
+  {
+    id: 'cast-on',
+    name: 'Cast On',
+    schemaZone: 'cuff',
+    defaultRows: 1,
+    isVariable: false,
+    baseInstruction: 'Long Tail method, cast on 60 stitches. Join for working in the round, being careful not to twist.',
+    specialStitches: [],
+  },
+  {
+    id: 'cuff',
+    name: 'Cuff',
+    schemaZone: 'cuff',
+    defaultRows: 20,
+    isVariable: true,
+    baseInstruction: '*K2, P2; rep from * to end.',
+    notes: 'Work until cuff measures approximately 3–4cm (1¼–1½ in) from cast-on edge.',
+    specialStitches: ['K2P2'],
+  },
+  {
+    id: 'leg',
+    name: 'Leg',
+    schemaZone: 'leg',
+    defaultRows: 40,
+    isVariable: true,
+    baseInstruction: 'Knit all stitches (stockinette in the round).',
+    notes: 'Continue until leg measures approximately 16cm (6¼ in) from cast-on, or desired length to top of heel.',
+    specialStitches: [],
+  },
+  {
+    id: 'short-row-heel',
+    name: 'Short Row Heel',
+    schemaZone: 'short-row-heel',
+    defaultRows: 40,
+    isVariable: true,
+    baseInstruction: 'Work flat over 30 heel sts (sts 31–60). Hold instep 30 sts on needle.',
+    rowInstructions: [
+      { row: 1,  instruction: 'RS: Sl1 pwise wyib, K28, turn (1 st unworked).' },
+      { row: 2,  instruction: 'WS: Sl1 pwise wyif, P28, turn (1 st unworked).' },
+      { row: 3,  instruction: 'RS: Sl1 pwise wyib, K to 1 st before gap, turn.' },
+      { row: 4,  instruction: 'WS: Sl1 pwise wyif, P to 1 st before gap, turn.' },
+      { row: 5,  instruction: 'RS: Sl1 pwise wyib, K to 1 st before gap, turn.', isRepeat: true },
+      { row: 6,  instruction: 'WS: Sl1 pwise wyif, P to 1 st before gap, turn.', isRepeat: true },
+    ],
+    repeatFromRow: 5,
+    notes: 'Phase 1 — Decrease: Rep rows 5 & 6 until 10 sts remain in centre (10 unworked each side). Phase 2 — Close gaps: RS rows: Sl1, K to gap, SSK (one st each side of gap), M1L, turn. WS rows: Sl1, P to gap, P2tog, M1p, turn. Repeat until all sts are worked back in. Stitch count returns to 30.',
+    specialStitches: ['Sl1 pwise wyib', 'Sl1 pwise wyif', 'K2tog', 'SKP'],
+  },
+  {
+    id: 'foot',
+    name: 'Foot',
+    schemaZone: 'foot',
+    defaultRows: 60,
+    isVariable: true,
+    baseInstruction: 'Rejoin in the round. Knit all rounds (stockinette).',
+    notes: 'Continue until foot measures approximately 18.5cm (7¼ in) from heel turn, or about 4.5cm (1¾ in) less than desired total foot length.',
+    specialStitches: [],
+  },
+  {
+    id: 'toe',
+    name: 'Toe',
+    schemaZone: 'toe',
+    defaultRows: 20,
+    isVariable: true,
+    baseInstruction: 'Spiral decrease: [Knit to 2 sts before marker, K2tog] × 4 every other round until 32 sts, then every round until 8 sts.',
+    rowInstructions: [
+      { row: 1, instruction: 'Decrease Rnd: [Knit to 2 sts before marker, K2tog] × 4. (–4 sts)' },
+      { row: 2, instruction: 'Plain Rnd: Knit all stitches.', isRepeat: true },
+    ],
+    repeatFromRow: 1,
+    notes: 'Work until 32 sts remain, then work Decrease Rnd only (no plain rnd) until 8 sts remain. Cut yarn, draw through final 8 sts, tighten.',
+    specialStitches: ['K2tog'],
+  },
+  {
+    id: 'finishing',
+    name: 'Finishing',
+    schemaZone: 'toe',
+    defaultRows: 1,
+    isVariable: false,
+    baseInstruction: 'Weave in ends. Machine wash gentle cycle (wool setting, max 30°C), air dry flat.',
+    specialStitches: [],
+  },
+];
+
+export const MY_SOCKS_SHORT_ROW: Pattern = {
+  id: 'my-socks-short-row',
+  name: 'My Socks: Short Row Heel',
+  description: 'Top-down sock, 60 stitches. K2P2 ribbed cuff, stockinette leg and foot, short row heel with gap-close technique, spiral toe.',
+  castOn: 60,
+  needleSize: 'US 1 (2.25mm)',
+  targetFootLength: 23,
+  sections: myShortRowSocksSections,
+  isPreloaded: true,
+  heelType: 'short-row',
+};
+
+export const PRELOADED_PATTERNS: Pattern[] = [MY_SOCKS, MY_SOCKS_RIBBED, HUSBANDS_SOCKS, MY_SOCKS_SHORT_ROW];
 
 export function getPatternById(id: string, customPatterns: Pattern[] = []): Pattern | undefined {
   return [...PRELOADED_PATTERNS, ...customPatterns].find(p => p.id === id);

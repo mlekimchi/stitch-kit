@@ -28,7 +28,7 @@ export function NewProjectForm({ onClose }: Props) {
 
   const [form, setForm] = useState({
     name:        '',
-    recipient:   '',
+
     patternId:   allPatterns[0]?.id ?? '',
     yarnBrand:   '',
     yarnName:    '',
@@ -59,7 +59,7 @@ export function NewProjectForm({ onClose }: Props) {
 
     addProject({
       name:        form.name.trim(),
-      recipient:   form.recipient.trim(),
+      recipient:   '',
       patternId:   form.patternId,
       customFootLength: form.customFootLength ? parseFloat(form.customFootLength) : undefined,
       yarn: {
@@ -94,7 +94,7 @@ export function NewProjectForm({ onClose }: Props) {
           <div className="w-10 h-1 bg-cream-300 rounded-full" />
         </div>
 
-        <form onSubmit={handleSubmit} className="px-5 pb-8 space-y-4">
+        <form onSubmit={handleSubmit} className="px-5 pb-nav-safe space-y-4">
           <h2 className="font-serif text-xl font-semibold text-gray-800 pt-2">New Project</h2>
 
           {/* Project name */}
@@ -108,18 +108,6 @@ export function NewProjectForm({ onClose }: Props) {
               className={`w-full border rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-rose-dusty ${errors.name ? 'border-red-300' : 'border-cream-300'}`}
             />
             {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
-          </div>
-
-          {/* Recipient */}
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Recipient</label>
-            <input
-              type="text"
-              value={form.recipient}
-              onChange={e => set('recipient', e.target.value)}
-              placeholder="e.g. For me, For Mum…"
-              className="w-full border border-cream-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-rose-dusty"
-            />
           </div>
 
           {/* Pattern */}
