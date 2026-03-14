@@ -21,7 +21,7 @@ function StarBurst() {
   });
 
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
+    <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
       {stars.map((s, i) => (
         <span
           key={i}
@@ -203,14 +203,14 @@ export function CounterScreen() {
       ) : (
         /* ── Normal row counter ── */
         <div
-          className="relative rounded-3xl shadow-card border border-cream-200 overflow-hidden select-none cursor-pointer transition-all duration-500"
+          className="relative rounded-3xl shadow-card border border-cream-200 select-none cursor-pointer transition-all duration-500"
           style={{ background: counterBg }}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           onClick={incrementRow}
         >
           {/* Progress bar */}
-          <div className="h-1.5 bg-cream-200">
+          <div className="h-1.5 bg-cream-200 rounded-t-3xl overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-rose-light to-rose-dusty transition-all duration-300"
               style={{ width: `${pct}%` }}
@@ -267,6 +267,9 @@ export function CounterScreen() {
             {/* Swipe hint */}
             <p className="mt-3 text-xs text-gray-300">Tap or swipe right to count · swipe left to undo</p>
           </div>
+
+          {/* Star burst — anchored to counter card, bursts from centre of number */}
+          {showStars && <StarBurst />}
         </div>
       )}
 
@@ -332,8 +335,6 @@ export function CounterScreen() {
         </div>
       )}
 
-      {/* Star burst overlay */}
-      {showStars && <StarBurst />}
     </div>
   );
 }
