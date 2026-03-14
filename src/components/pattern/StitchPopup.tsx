@@ -10,9 +10,11 @@ export function StitchPopup({ abbr, onClose }: Props) {
   const stitch = getStitch(abbr);
   const [stepIndex, setStepIndex] = useState(0);
 
-  const hasSteps = !!(stitch?.steps && stitch.steps.length > 1);
-  const currentSvg  = hasSteps ? stitch!.steps![stepIndex].svgPath : stitch?.svgPath;
-  const stepLabel   = hasSteps ? stitch!.steps![stepIndex].label   : null;
+  const hasSteps    = !!(stitch?.steps && stitch.steps.length > 1);
+  const currentStep = hasSteps ? stitch!.steps![stepIndex] : null;
+  const currentSvg  = currentStep?.svgPath ?? stitch?.svgPath;
+  const currentImg  = currentStep?.imgSrc ?? null;
+  const stepLabel   = currentStep?.label ?? null;
   const totalSteps  = hasSteps ? stitch!.steps!.length : 0;
 
   const categoryColor =
@@ -34,13 +36,19 @@ export function StitchPopup({ abbr, onClose }: Props) {
 
         {stitch ? (
           <>
-            {/* SVG diagram — wider/taller for step diagrams */}
-            <div
-              className={`mx-auto mb-2 bg-cream-100 rounded-2xl flex items-center justify-center ${
-                hasSteps ? 'w-full h-44 p-4' : 'w-20 h-20 p-3'
-              }`}
-              dangerouslySetInnerHTML={{ __html: currentSvg ?? '' }}
-            />
+            {/* Diagram — image file or inline SVG */}
+            {currentImg ? (
+              <div className="mx-auto mb-2 bg-white rounded-2xl w-full h-52 flex items-center justify-center overflow-hidden">
+                <img src={currentImg} alt={stepLabel ?? stitch.name} className="w-full h-full object-contain" />
+              </div>
+            ) : (
+              <div
+                className={`mx-auto mb-2 bg-cream-100 rounded-2xl flex items-center justify-center ${
+                  hasSteps ? 'w-full h-44 p-4' : 'w-20 h-20 p-3'
+                }`}
+                dangerouslySetInnerHTML={{ __html: currentSvg ?? '' }}
+              />
+            )}
 
             {/* Step navigation */}
             {hasSteps && (

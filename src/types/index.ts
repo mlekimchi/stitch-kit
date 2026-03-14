@@ -80,7 +80,8 @@ export type StitchCategory = 'decrease' | 'increase' | 'slip' | 'rib' | 'special
 
 export interface StitchStep {
   label: string;
-  svgPath: string;
+  svgPath?: string;  // inline SVG string
+  imgSrc?: string;   // path to a static image file (e.g. '/stitches/M1L_1.svg')
 }
 
 export interface StitchReference {
