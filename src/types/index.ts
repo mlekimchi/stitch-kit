@@ -78,11 +78,17 @@ export interface Pattern {
 // ─── Stitch Reference ─────────────────────────────────────────────────────────
 export type StitchCategory = 'decrease' | 'increase' | 'slip' | 'rib' | 'special';
 
+export interface StitchStep {
+  label: string;
+  svgPath: string;
+}
+
 export interface StitchReference {
   abbr: string;
   name: string;
   description: string;
-  svgPath: string;
+  svgPath: string;    // thumbnail used in list cards (= step 1 for multi-step stitches)
+  steps?: StitchStep[]; // optional multi-step diagrams shown in popup
   category: StitchCategory;
 }
 

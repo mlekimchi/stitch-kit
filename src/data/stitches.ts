@@ -119,47 +119,133 @@ export const STITCH_LIBRARY: StitchReference[] = [
     abbr: 'M1L',
     name: 'Make 1 Left',
     category: 'increase',
-    description: 'Insert left needle from front to back under the horizontal bar between stitches. Knit through the back loop. Creates a left-leaning increase with no hole.',
+    description: 'Pick up the bar between stitches from front to back, then knit through the back loop. Creates a left-leaning increase with no hole.',
     svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Two existing stitches below the bar -->
-      <line x1="12" y1="75" x2="12" y2="56" stroke="#8FAF90" stroke-width="2" stroke-linecap="round"/>
-      <line x1="48" y1="75" x2="48" y2="56" stroke="#8FAF90" stroke-width="2" stroke-linecap="round"/>
-      <!-- Horizontal bar between stitches (dashed) -->
-      <line x1="12" y1="56" x2="48" y2="56" stroke="#8FAF90" stroke-width="2" stroke-dasharray="4,3" stroke-linecap="round"/>
-      <!-- Needle tip entering bar from front (small tick on left side of bar) -->
-      <line x1="12" y1="56" x2="20" y2="48" stroke="#8FAF90" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Lifted strand going up from bar center -->
-      <line x1="30" y1="56" x2="30" y2="32" stroke="#8FAF90" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- New stitch curving LEFT (leans left) -->
-      <path d="M30,32 Q22,20 16,12" stroke="#8FAF90" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      <!-- Arrowhead at top showing left lean -->
-      <polygon points="16,12 11,20 21,19" fill="#8FAF90"/>
-      <!-- "f→b" label: front to back insertion -->
-      <text x="3" y="11" font-size="6" fill="#8FAF90" font-family="sans-serif" font-weight="bold">f→b</text>
+      <line x1="2" y1="20" x2="54" y2="20" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="57" cy="20" r="4" fill="#c0c0c0"/>
+      <path d="M8,20 C6,28 6,36 9,42 C11,47 15,47 17,42 C20,36 20,28 18,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M22,20 C20,28 20,36 23,42 C25,47 29,47 31,42 C34,36 34,28 32,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M36,20 C34,28 34,36 37,42 C39,47 43,47 45,42 C48,36 48,28 46,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="18" y1="32" x2="22" y2="32" stroke="#8FAF90" stroke-width="4" stroke-linecap="round"/>
+      <line x1="2" y1="56" x2="18" y2="32" stroke="#777" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="18" y1="32" x2="28" y2="14" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2"/>
+      <polygon points="28,14 21,17 24,23" fill="#777"/>
     </svg>`,
+    steps: [
+      {
+        label: 'Step 1 — Insert LH needle front to back under the bar',
+        svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- RH needle with ball end -->
+          <line x1="2" y1="20" x2="54" y2="20" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="57" cy="20" r="4" fill="#c0c0c0"/>
+          <!-- 3 live stitch loops -->
+          <path d="M8,20 C6,28 6,36 9,42 C11,47 15,47 17,42 C20,36 20,28 18,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M22,20 C20,28 20,36 23,42 C25,47 29,47 31,42 C34,36 34,28 32,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M36,20 C34,28 34,36 37,42 C39,47 43,47 45,42 C48,36 48,28 46,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- The bar — highlighted sage green -->
+          <line x1="18" y1="32" x2="22" y2="32" stroke="#8FAF90" stroke-width="4" stroke-linecap="round"/>
+          <!-- LH needle: solid from front/lower-left to bar -->
+          <line x1="2" y1="58" x2="18" y2="32" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- LH needle: dashed through bar toward back/upper-right -->
+          <line x1="18" y1="32" x2="30" y2="14" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2.5"/>
+          <!-- Arrowhead at back end (upper-right) showing direction of travel -->
+          <polygon points="30,14 22,16 25,23" fill="#666"/>
+          <!-- Labels -->
+          <text x="3" y="70" font-size="5.5" fill="#555" font-family="sans-serif" font-weight="bold">LH needle</text>
+          <text x="3" y="78" font-size="5" fill="#8FAF90" font-family="sans-serif">front → back under bar</text>
+        </svg>`,
+      },
+      {
+        label: 'Step 2 — Knit through the back loop (tbl)',
+        svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- LH needle (pointed tip on left) — bar is now lifted onto it -->
+          <line x1="4" y1="28" x2="56" y2="28" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="4" y1="28" x2="0" y2="28" stroke="#c0c0c0" stroke-width="2" stroke-linecap="round"/>
+          <!-- Lifted bar — now a loop on the LH needle, highlighted -->
+          <path d="M10,28 C8,36 8,44 11,50 C13,55 17,55 19,50 C22,44 22,36 20,28" stroke="#8FAF90" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Regular stitches to the right -->
+          <path d="M26,28 C24,36 24,44 27,50 C29,55 33,55 35,50 C38,44 38,36 36,28" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M40,28 C38,36 38,44 41,50 C43,55 47,55 49,50" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Back-loop direction arrow at top (← leftward = back loop) -->
+          <line x1="42" y1="12" x2="24" y2="12" stroke="#8FAF90" stroke-width="2" stroke-linecap="round"/>
+          <polygon points="24,12 30,8 30,16" fill="#8FAF90"/>
+          <text x="24" y="8" font-size="5" fill="#8FAF90" font-family="sans-serif" text-anchor="middle">back loop</text>
+          <!-- RH needle through BACK of highlighted loop (enters from right, exits left) -->
+          <line x1="58" y1="22" x2="21" y2="35" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="35" x2="3" y2="30" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <polygon points="3,30 10,26 11,34" fill="#666"/>
+          <!-- Labels -->
+          <text x="3" y="70" font-size="5.5" fill="#555" font-family="sans-serif" font-weight="bold">RH needle</text>
+          <text x="3" y="78" font-size="5" fill="#8FAF90" font-family="sans-serif">through back loop → tbl</text>
+        </svg>`,
+      },
+    ],
   },
   {
     abbr: 'M1R',
     name: 'Make 1 Right',
     category: 'increase',
-    description: 'Insert left needle from back to front under the horizontal bar between stitches. Knit through the front loop. Creates a right-leaning increase with no hole.',
+    description: 'Pick up the bar between stitches from back to front, then knit through the front loop. Creates a right-leaning increase with no hole.',
     svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Two existing stitches below the bar -->
-      <line x1="12" y1="75" x2="12" y2="56" stroke="#C47A7F" stroke-width="2" stroke-linecap="round"/>
-      <line x1="48" y1="75" x2="48" y2="56" stroke="#C47A7F" stroke-width="2" stroke-linecap="round"/>
-      <!-- Horizontal bar between stitches (dashed) -->
-      <line x1="12" y1="56" x2="48" y2="56" stroke="#C47A7F" stroke-width="2" stroke-dasharray="4,3" stroke-linecap="round"/>
-      <!-- Needle tip entering bar from back (small tick on right side of bar) -->
-      <line x1="48" y1="56" x2="40" y2="48" stroke="#C47A7F" stroke-width="1.5" stroke-linecap="round"/>
-      <!-- Lifted strand going up from bar center -->
-      <line x1="30" y1="56" x2="30" y2="32" stroke="#C47A7F" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- New stitch curving RIGHT (leans right) -->
-      <path d="M30,32 Q38,20 44,12" stroke="#C47A7F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      <!-- Arrowhead at top showing right lean -->
-      <polygon points="44,12 39,19 49,20" fill="#C47A7F"/>
-      <!-- "b→f" label: back to front insertion -->
-      <text x="34" y="11" font-size="6" fill="#C47A7F" font-family="sans-serif" font-weight="bold">b→f</text>
+      <line x1="2" y1="20" x2="54" y2="20" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="57" cy="20" r="4" fill="#c0c0c0"/>
+      <path d="M8,20 C6,28 6,36 9,42 C11,47 15,47 17,42 C20,36 20,28 18,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M22,20 C20,28 20,36 23,42 C25,47 29,47 31,42 C34,36 34,28 32,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M36,20 C34,28 34,36 37,42 C39,47 43,47 45,42 C48,36 48,28 46,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="18" y1="32" x2="22" y2="32" stroke="#C47A7F" stroke-width="4" stroke-linecap="round"/>
+      <line x1="58" y1="10" x2="22" y2="32" stroke="#777" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="22" y1="32" x2="10" y2="48" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2"/>
+      <polygon points="10,48 15,41 18,48" fill="#777"/>
     </svg>`,
+    steps: [
+      {
+        label: 'Step 1 — Insert LH needle back to front under the bar',
+        svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- RH needle with ball end -->
+          <line x1="2" y1="20" x2="54" y2="20" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="57" cy="20" r="4" fill="#c0c0c0"/>
+          <!-- 3 live stitch loops -->
+          <path d="M8,20 C6,28 6,36 9,42 C11,47 15,47 17,42 C20,36 20,28 18,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M22,20 C20,28 20,36 23,42 C25,47 29,47 31,42 C34,36 34,28 32,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M36,20 C34,28 34,36 37,42 C39,47 43,47 45,42 C48,36 48,28 46,20" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- The bar — highlighted rose -->
+          <line x1="18" y1="32" x2="22" y2="32" stroke="#C47A7F" stroke-width="4" stroke-linecap="round"/>
+          <!-- LH needle: solid from back/upper-right to bar -->
+          <line x1="58" y1="10" x2="22" y2="32" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- LH needle: dashed through bar toward front/lower-left -->
+          <line x1="22" y1="32" x2="10" y2="48" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2.5"/>
+          <!-- Arrowhead at front end (lower-left) showing direction of travel -->
+          <polygon points="10,48 15,41 19,48" fill="#666"/>
+          <!-- Labels -->
+          <text x="3" y="70" font-size="5.5" fill="#555" font-family="sans-serif" font-weight="bold">LH needle</text>
+          <text x="3" y="78" font-size="5" fill="#C47A7F" font-family="sans-serif">back → front under bar</text>
+        </svg>`,
+      },
+      {
+        label: 'Step 2 — Knit through the front loop (tfl)',
+        svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- LH needle (pointed tip on left) -->
+          <line x1="4" y1="28" x2="56" y2="28" stroke="#c0c0c0" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="4" y1="28" x2="0" y2="28" stroke="#c0c0c0" stroke-width="2" stroke-linecap="round"/>
+          <!-- Lifted bar — now a loop on the LH needle, highlighted rose -->
+          <path d="M10,28 C8,36 8,44 11,50 C13,55 17,55 19,50 C22,44 22,36 20,28" stroke="#C47A7F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Regular stitches to the right -->
+          <path d="M26,28 C24,36 24,44 27,50 C29,55 33,55 35,50 C38,44 38,36 36,28" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M40,28 C38,36 38,44 41,50 C43,55 47,55 49,50" stroke="#c8c8c8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Front-loop direction arrow at top (→ rightward = front loop) -->
+          <line x1="18" y1="12" x2="36" y2="12" stroke="#C47A7F" stroke-width="2" stroke-linecap="round"/>
+          <polygon points="36,12 30,8 30,16" fill="#C47A7F"/>
+          <text x="27" y="8" font-size="5" fill="#C47A7F" font-family="sans-serif" text-anchor="middle">front loop</text>
+          <!-- RH needle through FRONT of highlighted loop (enters from left, exits right) -->
+          <line x1="2" y1="22" x2="16" y2="35" stroke="#666" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="16" y1="35" x2="30" y2="28" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-dasharray="3,2"/>
+          <polygon points="30,28 23,24 22,32" fill="#666"/>
+          <!-- Labels -->
+          <text x="3" y="70" font-size="5.5" fill="#555" font-family="sans-serif" font-weight="bold">RH needle</text>
+          <text x="3" y="78" font-size="5" fill="#C47A7F" font-family="sans-serif">through front loop → tfl</text>
+        </svg>`,
+      },
+    ],
   },
 ];
 

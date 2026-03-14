@@ -52,7 +52,7 @@ export function ToolsScreen() {
       {/* Stitch Library */}
       {activeTab === 'stitches' && (
         <div className="space-y-3">
-          {(['decrease', 'slip', 'rib', 'special'] as const).map(cat => {
+          {(['decrease', 'increase', 'slip', 'rib', 'special'] as const).map(cat => {
             const stitches = STITCH_LIBRARY.filter(s => s.category === cat);
             if (!stitches.length) return null;
             return (
