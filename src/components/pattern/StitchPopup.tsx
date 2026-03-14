@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getStitch } from '../../data/stitches';
 
 interface Props {
@@ -6,8 +6,36 @@ interface Props {
   onClose: () => void;
 }
 
+// Module-level cache — SVGs fetched once per session
+const svgCache = new Map<string, string>();
+
+function useFetchSVG(src: string | null): string {
+  const [content, setContent] = useState<string>(() =>
+    src ? (svgCache.get(src) ?? '') : ''
+  );
+  const srcRef = useRef(src);
+  srcRef.current = src;
+
+  useEffect(() => {
+    if (!src) return;
+    if (svgCache.has(src)) { setContent(svgCache.get(src)!); return; }
+    fetch(src)
+      .then(r => r.text())
+      .then(text => {
+        // Strip fixed width/height so SVG scales via viewBox alone
+        const responsive = text
+          .replace(/(<svg\b[^>]*?)\s+width="[^"]*"/i, '$1')
+          .replace(/(<svg\b[^>]*?)\s+height="[^"]*"/i, '$1');
+        svgCache.set(src, responsive);
+        if (srcRef.current === src) setContent(responsive);
+      });
+  }, [src]);
+
+  return content;
+}
+
 export function StitchPopup({ abbr, onClose }: Props) {
-  const stitch = getStitch(abbr);
+  const stitch      = getStitch(abbr);
   const [stepIndex, setStepIndex] = useState(0);
 
   const hasSteps    = !!(stitch?.steps && stitch.steps.length > 1);
@@ -16,6 +44,16 @@ export function StitchPopup({ abbr, onClose }: Props) {
   const currentImg  = currentStep?.imgSrc ?? null;
   const stepLabel   = currentStep?.label ?? null;
   const totalSteps  = hasSteps ? stitch!.steps!.length : 0;
+
+  // Pre-fetch all step images so navigation is instant
+  const step0Src = stitch?.steps?.[0]?.imgSrc ?? null;
+  const step1Src = stitch?.steps?.[1]?.imgSrc ?? null;
+  const svg0 = useFetchSVG(step0Src);
+  const svg1 = useFetchSVG(step1Src);
+  const svgMap: Record<string, string> = {};
+  if (step0Src) svgMap[step0Src] = svg0;
+  if (step1Src) svgMap[step1Src] = svg1;
+  const inlineSvg = currentImg ? (svgMap[currentImg] ?? '') : null;
 
   const categoryColor =
     stitch?.category === 'decrease' ? 'bg-rose-pale text-rose-dark'    :
@@ -36,11 +74,13 @@ export function StitchPopup({ abbr, onClose }: Props) {
 
         {stitch ? (
           <>
-            {/* Diagram — image file or inline SVG */}
-            {currentImg ? (
-              <div className="mx-auto mb-2 bg-white rounded-2xl w-full h-52 flex items-center justify-center overflow-hidden">
-                <img src={currentImg} alt={stepLabel ?? stitch.name} className="w-full h-full object-contain" />
-              </div>
+            {/* Diagram */}
+            {inlineSvg != null ? (
+              /* Inline SVG — CSS vars from current theme are resolved */
+              <div
+                className="mx-auto mb-2 rounded-2xl w-full overflow-hidden [&>svg]:w-full [&>svg]:h-auto [&>svg]:block"
+                dangerouslySetInnerHTML={{ __html: inlineSvg }}
+              />
             ) : (
               <div
                 className={`mx-auto mb-2 bg-cream-100 rounded-2xl flex items-center justify-center ${
@@ -59,7 +99,6 @@ export function StitchPopup({ abbr, onClose }: Props) {
                   className="w-7 h-7 flex items-center justify-center rounded-full text-gray-500 disabled:opacity-25 hover:bg-cream-200 transition-colors text-lg"
                 >‹</button>
 
-                {/* Dot indicators */}
                 <div className="flex gap-1.5">
                   {stitch.steps!.map((_, i) => (
                     <button
