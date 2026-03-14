@@ -115,6 +115,52 @@ export const STITCH_LIBRARY: StitchReference[] = [
       <line x1="54" y1="54" x2="54" y2="22" stroke="#8FAF90" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`,
   },
+  {
+    abbr: 'M1L',
+    name: 'Make 1 Left',
+    category: 'increase',
+    description: 'Insert left needle from front to back under the horizontal bar between stitches. Knit through the back loop. Creates a left-leaning increase with no hole.',
+    svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Two existing stitches below the bar -->
+      <line x1="12" y1="75" x2="12" y2="56" stroke="#8FAF90" stroke-width="2" stroke-linecap="round"/>
+      <line x1="48" y1="75" x2="48" y2="56" stroke="#8FAF90" stroke-width="2" stroke-linecap="round"/>
+      <!-- Horizontal bar between stitches (dashed) -->
+      <line x1="12" y1="56" x2="48" y2="56" stroke="#8FAF90" stroke-width="2" stroke-dasharray="4,3" stroke-linecap="round"/>
+      <!-- Needle tip entering bar from front (small tick on left side of bar) -->
+      <line x1="12" y1="56" x2="20" y2="48" stroke="#8FAF90" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Lifted strand going up from bar center -->
+      <line x1="30" y1="56" x2="30" y2="32" stroke="#8FAF90" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- New stitch curving LEFT (leans left) -->
+      <path d="M30,32 Q22,20 16,12" stroke="#8FAF90" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- Arrowhead at top showing left lean -->
+      <polygon points="16,12 11,20 21,19" fill="#8FAF90"/>
+      <!-- "f→b" label: front to back insertion -->
+      <text x="3" y="11" font-size="6" fill="#8FAF90" font-family="sans-serif" font-weight="bold">f→b</text>
+    </svg>`,
+  },
+  {
+    abbr: 'M1R',
+    name: 'Make 1 Right',
+    category: 'increase',
+    description: 'Insert left needle from back to front under the horizontal bar between stitches. Knit through the front loop. Creates a right-leaning increase with no hole.',
+    svgPath: `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Two existing stitches below the bar -->
+      <line x1="12" y1="75" x2="12" y2="56" stroke="#C47A7F" stroke-width="2" stroke-linecap="round"/>
+      <line x1="48" y1="75" x2="48" y2="56" stroke="#C47A7F" stroke-width="2" stroke-linecap="round"/>
+      <!-- Horizontal bar between stitches (dashed) -->
+      <line x1="12" y1="56" x2="48" y2="56" stroke="#C47A7F" stroke-width="2" stroke-dasharray="4,3" stroke-linecap="round"/>
+      <!-- Needle tip entering bar from back (small tick on right side of bar) -->
+      <line x1="48" y1="56" x2="40" y2="48" stroke="#C47A7F" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Lifted strand going up from bar center -->
+      <line x1="30" y1="56" x2="30" y2="32" stroke="#C47A7F" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- New stitch curving RIGHT (leans right) -->
+      <path d="M30,32 Q38,20 44,12" stroke="#C47A7F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- Arrowhead at top showing right lean -->
+      <polygon points="44,12 39,19 49,20" fill="#C47A7F"/>
+      <!-- "b→f" label: back to front insertion -->
+      <text x="34" y="11" font-size="6" fill="#C47A7F" font-family="sans-serif" font-weight="bold">b→f</text>
+    </svg>`,
+  },
 ];
 
 export function getStitch(abbr: string): StitchReference | undefined {

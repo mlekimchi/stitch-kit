@@ -76,7 +76,7 @@ export interface Pattern {
 }
 
 // ─── Stitch Reference ─────────────────────────────────────────────────────────
-export type StitchCategory = 'decrease' | 'slip' | 'rib' | 'special';
+export type StitchCategory = 'decrease' | 'increase' | 'slip' | 'rib' | 'special';
 
 export interface StitchReference {
   abbr: string;
