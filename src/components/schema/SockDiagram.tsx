@@ -94,17 +94,25 @@ const SR_LABEL: Record<string, { x: number; y: number; size: number }> = {
   toe:              { x: 275, y: 180, size: 9 },
 };
 
-// ── Shared color helpers ──────────────────────────────────────────────────────
+// ── Shared color helpers (CSS variables — theme-aware) ────────────────────────
+// Using inline style={{ fill/stroke }} so CSS custom properties resolve correctly.
+// SVG presentation attributes (fill="...") do NOT resolve var(), but style does.
 
-function zoneColor(completed: boolean, current: boolean): string {
-  if (current)   return '#C47A7F';
-  if (completed) return '#8FAF90';
-  return '#E8DDD4';
+function zoneFill(completed: boolean, current: boolean): string {
+  if (current)   return 'var(--color-rose-dusty)';
+  if (completed) return 'var(--color-sage)';
+  return 'var(--color-cream-200)';
+}
+
+function zoneStroke(completed: boolean, current: boolean): string {
+  if (current)   return 'var(--color-rose-dark)';
+  if (completed) return 'var(--color-sage-dark)';
+  return 'var(--color-cream-300)';
 }
 
 function zoneLabelColor(completed: boolean, current: boolean): string {
   if (current || completed) return '#fff';
-  return '#9E8E82';
+  return 'var(--color-text-soft)';
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -128,13 +136,18 @@ export function SockDiagram({ completedZones, currentZone, onZoneClick, heelType
         aria-label="Interactive sock diagram"
       >
         {/* Outer sock silhouette */}
-        <path d={outline} fill="#F5ECD8" stroke="#D4C5B5" strokeWidth="2" />
+        <path
+          d={outline}
+          style={{ fill: 'var(--color-cream-200)', stroke: 'var(--color-cream-300)' }}
+          strokeWidth="2"
+        />
 
         {/* Clickable zones */}
         {zones.map(({ id, label }) => {
           const isCompleted = completedZones.includes(id);
           const isCurrent   = currentZone === id;
-          const fill        = zoneColor(isCompleted, isCurrent);
+          const fill        = zoneFill(isCompleted, isCurrent);
+          const stroke      = zoneStroke(isCompleted, isCurrent);
           const textColor   = zoneLabelColor(isCompleted, isCurrent);
           const opacity     = !isCompleted && !isCurrent ? 0.55 : 1;
           const lbl         = labels[id];
@@ -143,8 +156,7 @@ export function SockDiagram({ completedZones, currentZone, onZoneClick, heelType
             <g key={id} onClick={() => onZoneClick(id)} style={{ cursor: 'pointer' }} opacity={opacity}>
               <path
                 d={paths[id]}
-                fill={fill}
-                stroke={isCurrent ? '#A45E63' : isCompleted ? '#6A8F6B' : '#C4B5A5'}
+                style={{ fill, stroke }}
                 strokeWidth={isCurrent ? 2.5 : 1.5}
                 className="transition-all duration-200"
               />
@@ -152,7 +164,7 @@ export function SockDiagram({ completedZones, currentZone, onZoneClick, heelType
                 <path
                   d={paths[id]}
                   fill="none"
-                  stroke="#C47A7F"
+                  style={{ stroke: 'var(--color-rose-dusty)' }}
                   strokeWidth="4"
                   opacity="0.35"
                 />
@@ -169,9 +181,13 @@ export function SockDiagram({ completedZones, currentZone, onZoneClick, heelType
         ))}
 
         {/* Needle / yarn decoration at cast-on edge */}
-        <line x1="62" y1="13" x2={needleX2} y2="13" stroke="#C47A7F" strokeWidth="3" strokeLinecap="round" />
-        <circle cx={needleX2} cy="13" r="3" fill="#C47A7F" />
-        <circle cx="62"       cy="13" r="3" fill="#C47A7F" />
+        <line
+          x1="62" y1="13" x2={needleX2} y2="13"
+          style={{ stroke: 'var(--color-rose-dusty)' }}
+          strokeWidth="3" strokeLinecap="round"
+        />
+        <circle cx={needleX2} cy="13" r="3" style={{ fill: 'var(--color-rose-dusty)' }} />
+        <circle cx="62"       cy="13" r="3" style={{ fill: 'var(--color-rose-dusty)' }} />
       </svg>
     </div>
   );
@@ -200,9 +216,8 @@ function ZoneLabel({
           dominantBaseline="middle"
           fontSize={size}
           fontWeight="600"
-          fill={textColor}
           fontFamily="system-ui, sans-serif"
-          style={{ pointerEvents: 'none', userSelect: 'none' }}
+          style={{ fill: textColor, pointerEvents: 'none', userSelect: 'none' }}
         >
           {line}
         </text>

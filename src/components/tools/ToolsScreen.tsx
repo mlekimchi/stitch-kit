@@ -101,37 +101,37 @@ const THEMES = [
   {
     id: 'cozy',
     name: 'Cozy',
-    swatches: ['#FBF6EC', '#C47A7F', '#8FAF90'],
+    swatches: ['#FBF6EC', '#EDD9BF', '#8FAF90', '#C47A7F', '#A45E63'],
   },
   {
-    id: 'botanical',
-    name: 'Botanical',
-    swatches: ['#EFEBCE', '#BB8588', '#A3A380'],
+    id: 'pistachio-rose',
+    name: 'Pistachio Rose',
+    swatches: ['#EFEBCE', '#D7CE93', '#A3A380', '#D8A48F', '#BB8588'],
   },
   {
-    id: 'sky',
-    name: 'Sky',
-    swatches: ['#EEE2DF', '#5B61B2', '#6DA0E1'],
+    id: 'dream',
+    name: 'Dream',
+    swatches: ['#EEE2DF', '#DEC1DB', '#6DA0E1', '#5B61B2', '#2F80E4'],
   },
   {
     id: 'garden',
     name: 'Garden',
-    swatches: ['#FFF0FC', '#DB3E8C', '#7758A3'],
+    swatches: ['#FFAFEB', '#F6C45C', '#7758A3', '#DB3E8C', '#66A5ED'],
   },
   {
-    id: 'choc-straw-milk-tea',
-    name: 'Choc Strawberry Milk Tea',
-    swatches: ['#F2CFCA', '#EC9C9D', '#7F5836'],
+    id: 'choco-strawberry-milk-tea',
+    name: 'Choco Strawberry Milk Tea',
+    swatches: ['#FAF0EE', '#F2CFCA', '#AA7F66', '#EC9C9D', '#5A3A20'],
   },
   {
     id: 'matcha-strawberry',
     name: 'Matcha Strawberry',
-    swatches: ['#EEF2DD', '#DD716B', '#9FC76B'],
+    swatches: ['#EEF2DD', '#E7B9C6', '#9FC76B', '#DD716B', '#A07D58'],
   },
   {
     id: 'neapolitan',
     name: 'Neapolitan',
-    swatches: ['#FAD6D3', '#F28AA1', '#E7AE75'],
+    swatches: ['#FAD6D3', '#F6DFB3', '#E7AE75', '#F28AA1', '#83513E'],
   },
 ];
 
@@ -182,7 +182,7 @@ function SettingsPanel() {
             >
               <div className="flex gap-0.5 flex-shrink-0">
                 {t.swatches.map((c, i) => (
-                  <span key={i} className="w-4 h-4 rounded-full border border-white/60" style={{ backgroundColor: c }} />
+                  <span key={i} className="w-3 h-3 rounded-full border border-white/60" style={{ backgroundColor: c }} />
                 ))}
               </div>
               <span className="text-xs font-medium text-gray-700 truncate">{t.name}</span>

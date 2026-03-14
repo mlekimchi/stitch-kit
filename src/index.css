@@ -2,147 +2,238 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   THEME SYSTEM
+   Each theme defines 5 raw palette slots (--p1 → --p5) drawn directly from
+   the palette image, ordered by role:
+     --p1  lightest — page backgrounds
+     --p2  light    — borders, subtle fills
+     --p3  mid      — secondary accent  (sage role)
+     --p4  accent   — primary accent    (rose role)
+     --p5  deep     — dark accent, depth
+   Semantic tokens (--color-cream-*, --color-rose-*, --color-sage-*, text,
+   card-bg) are derived from these slots so all components stay unchanged.
+───────────────────────────────────────────────────────────────────────────── */
+
 /* ── Theme: Cozy (default) ─────────────────────────────────────────────────── */
 :root, [data-theme="cozy"] {
-  --color-cream-50:  #FDFAF5;
-  --color-cream-100: #FBF6EC;
-  --color-cream-200: #F5ECD8;
-  --color-cream-300: #EDD9BF;
-  --color-rose-dusty: #C47A7F;
-  --color-rose-light: #D9A5A9;
-  --color-rose-dark:  #A45E63;
-  --color-rose-pale:  #F2DEDE;
-  --color-sage:       #8FAF90;
-  --color-sage-light: #B5CDB6;
-  --color-sage-dark:  #6A8F6B;
-  --color-sage-pale:  #DCE9DC;
-  --color-card-bg:    #FFFDFB;
+  /* Warm Cream · Warm Tan · Sage Green · Dusty Rose · Dark Rose */
+  --p1: #FBF6EC;
+  --p2: #EDD9BF;
+  --p3: #8FAF90;
+  --p4: #C47A7F;
+  --p5: #A45E63;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 50%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 65%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  var(--p5);
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  color-mix(in srgb, var(--p3) 70%, black);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 60%, white);
+
   --color-text-dark:  #2C1215;
   --color-text-mid:   #3D2020;
   --color-text-muted: #7A4A4E;
   --color-text-soft:  #A07478;
 }
 
-/* ── Theme: Botanical (Olive Petal / Artic Daisy / Peach Blossom) ─────────── */
-[data-theme="botanical"] {
-  --color-cream-50:  #F7F5E5;
-  --color-cream-100: #EFEBCE;
-  --color-cream-200: #E4DDB5;
-  --color-cream-300: #D7CE93;
-  --color-rose-dusty: #BB8588;
-  --color-rose-light: #D8A48F;
-  --color-rose-dark:  #96686B;
-  --color-rose-pale:  #EDD8D0;
-  --color-sage:       #A3A380;
-  --color-sage-light: #C0C09E;
-  --color-sage-dark:  #7A7A5E;
-  --color-sage-pale:  #DEDED0;
-  --color-card-bg:    #F9F8F0;
+/* ── Theme: Pistachio Rose ──────────────────────────────────────────────────── */
+[data-theme="pistachio-rose"] {
+  /* Artic Daisy · Golden Clover · Olive Petal · Rose Blush · Peach Blossom */
+  --p1: #EFEBCE;
+  --p2: #D7CE93;
+  --p3: #A3A380;
+  --p4: #D8A48F;
+  --p5: #BB8588;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 50%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 65%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  var(--p5);
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  color-mix(in srgb, var(--p3) 70%, black);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 60%, white);
+
   --color-text-dark:  #201E0E;
   --color-text-mid:   #2A2718;
   --color-text-muted: #5A5840;
   --color-text-soft:  #857E60;
 }
 
-/* ── Theme: Sky (Platinum / Liberty / Little Boy Blue) ────────────────────── */
-[data-theme="sky"] {
-  --color-cream-50:  #F8F5F4;
-  --color-cream-100: #EEE2DF;
-  --color-cream-200: #E2D0CC;
-  --color-cream-300: #DEC1DB;
-  --color-rose-dusty: #5B61B2;
-  --color-rose-light: #7A80C4;
-  --color-rose-dark:  #454A90;
-  --color-rose-pale:  #DDDFF5;
-  --color-sage:       #6DA0E1;
-  --color-sage-light: #95BCE8;
-  --color-sage-dark:  #4A82C8;
-  --color-sage-pale:  #D8E8F5;
-  --color-card-bg:    #F5F6FC;
+/* ── Theme: Dream ───────────────────────────────────────────────────────────── */
+[data-theme="dream"] {
+  /* Platinum · Thistle · Little Boy Blue · Liberty · Bleu de France */
+  --p1: #EEE2DF;
+  --p2: #DEC1DB;
+  --p3: #6DA0E1;
+  --p4: #5B61B2;
+  --p5: #2F80E4;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 50%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 65%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  color-mix(in srgb, var(--p4) 70%, black);
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  color-mix(in srgb, var(--p3) 70%, black);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 50%, white);
+
   --color-text-dark:  #141630;
   --color-text-mid:   #1A1C38;
   --color-text-muted: #3D4270;
   --color-text-soft:  #6870A8;
 }
 
-/* ── Theme: Garden (Lavender Rose / Deep Cerise / Lavender Violet) ────────── */
+/* ── Theme: Garden ──────────────────────────────────────────────────────────── */
 [data-theme="garden"] {
-  --color-cream-50:  #FFF8FE;
-  --color-cream-100: #FFF0FC;
-  --color-cream-200: #FFD8F8;
-  --color-cream-300: #FFAFEB;
-  --color-rose-dusty: #DB3E8C;
-  --color-rose-light: #E870AA;
-  --color-rose-dark:  #B02870;
-  --color-rose-pale:  #FFE0F5;
-  --color-sage:       #7758A3;
-  --color-sage-light: #9D80C0;
-  --color-sage-dark:  #5A3E88;
-  --color-sage-pale:  #EAE0F8;
-  --color-card-bg:    #FEF5FE;
+  /* Lavender Rose · Honey Gold · Lavender Violet · Deep Cerise · Ruddy Blue */
+  --p1: #FFAFEB;
+  --p2: #F6C45C;
+  --p3: #7758A3;
+  --p4: #DB3E8C;
+  --p5: #66A5ED;
+
+  /* Backgrounds: lighter tints of p1 (lavender rose) — p2 is warm gold, not for bg */
+  --color-cream-50:  color-mix(in srgb, var(--p1) 10%, white);
+  --color-cream-100: color-mix(in srgb, var(--p1) 25%, white);
+  --color-cream-200: color-mix(in srgb, var(--p1) 55%, white);
+  --color-cream-300: var(--p1);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  color-mix(in srgb, var(--p4) 70%, black);
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 18%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  color-mix(in srgb, var(--p3) 70%, black);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 18%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 12%, white);
+
   --color-text-dark:  #1E0620;
   --color-text-mid:   #28082A;
   --color-text-muted: #5E3060;
   --color-text-soft:  #8E6090;
 }
 
-/* ── Theme: Chocolate Strawberry Milk Tea ─────────────────────────────────── */
-[data-theme="choc-straw-milk-tea"] {
-  --color-cream-50:  #FAF0EE;
-  --color-cream-100: #F2CFCA;
-  --color-cream-200: #E8B8B5;
-  --color-cream-300: #EC9C9D;
-  --color-rose-dusty: #EC9C9D;
-  --color-rose-light: #F0B5B5;
-  --color-rose-dark:  #C87878;
-  --color-rose-pale:  #FAE8E8;
-  --color-sage:       #7F5836;
-  --color-sage-light: #AA7F66;
-  --color-sage-dark:  #5A3A20;
-  --color-sage-pale:  #E8D8CC;
-  --color-card-bg:    #FDF5F3;
+/* ── Theme: Choco Strawberry Milk Tea ───────────────────────────────────────── */
+[data-theme="choco-strawberry-milk-tea"] {
+  /* Cream Blush · Milk Tea Pink · Caramel · Strawberry · Chocolate */
+  --p1: #FAF0EE;
+  --p2: #F2CFCA;
+  --p3: #AA7F66;
+  --p4: #EC9C9D;
+  --p5: #5A3A20;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 50%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 65%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  color-mix(in srgb, var(--p4) 50%, var(--p5));
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  var(--p5);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 60%, white);
+
   --color-text-dark:  #1C0A08;
   --color-text-mid:   #2A1410;
   --color-text-muted: #6B3830;
   --color-text-soft:  #9B6858;
 }
 
-/* ── Theme: Matcha Strawberry ─────────────────────────────────────────────── */
+/* ── Theme: Matcha Strawberry ───────────────────────────────────────────────── */
 [data-theme="matcha-strawberry"] {
-  --color-cream-50:  #F5F8EE;
-  --color-cream-100: #EEF2DD;
-  --color-cream-200: #E0E8C0;
-  --color-cream-300: #C8DFA0;
-  --color-rose-dusty: #DD716B;
-  --color-rose-light: #E89590;
-  --color-rose-dark:  #B85550;
-  --color-rose-pale:  #FAE0DE;
-  --color-sage:       #9FC76B;
-  --color-sage-light: #B8D88A;
-  --color-sage-dark:  #78A045;
-  --color-sage-pale:  #DCF0C0;
-  --color-card-bg:    #F5FAF0;
+  /* Oatmilk · Pink Clouds · Matcha Green · Strawberry · Light Espresso */
+  --p1: #EEF2DD;
+  --p2: #E7B9C6;
+  --p3: #9FC76B;
+  --p4: #DD716B;
+  --p5: #A07D58;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 50%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 65%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  color-mix(in srgb, var(--p4) 65%, var(--p5));
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  color-mix(in srgb, var(--p3) 65%, var(--p5));
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 60%, white);
+
   --color-text-dark:  #101808;
   --color-text-mid:   #182310;
   --color-text-muted: #445E30;
   --color-text-soft:  #708E50;
 }
 
-/* ── Theme: Neapolitan ────────────────────────────────────────────────────── */
+/* ── Theme: Neapolitan ──────────────────────────────────────────────────────── */
 [data-theme="neapolitan"] {
-  --color-cream-50:  #FDF0EF;
-  --color-cream-100: #FAD6D3;
-  --color-cream-200: #F0C0BC;
-  --color-cream-300: #F0A8B0;
-  --color-rose-dusty: #F28AA1;
-  --color-rose-light: #F5A8BC;
-  --color-rose-dark:  #C86882;
-  --color-rose-pale:  #FDE8EE;
-  --color-sage:       #E7AE75;
-  --color-sage-light: #F6DFB3;
-  --color-sage-dark:  #83513E;
-  --color-sage-pale:  #F8EED8;
-  --color-card-bg:    #FEF4F2;
+  /* Misty Rose · Wheat · Fawn · Salmon Pink · Bole */
+  --p1: #FAD6D3;
+  --p2: #F6DFB3;
+  --p3: #E7AE75;
+  --p4: #F28AA1;
+  --p5: #83513E;
+
+  --color-cream-50:  color-mix(in srgb, var(--p1) 30%, white);
+  --color-cream-100: var(--p1);
+  --color-cream-200: color-mix(in srgb, var(--p1) 70%, var(--p2));
+  --color-cream-300: var(--p2);
+
+  --color-rose-dusty: var(--p4);
+  --color-rose-light: color-mix(in srgb, var(--p4) 60%, white);
+  --color-rose-dark:  color-mix(in srgb, var(--p4) 55%, var(--p5));
+  --color-rose-pale:  color-mix(in srgb, var(--p4) 20%, white);
+
+  --color-sage:       var(--p3);
+  --color-sage-light: color-mix(in srgb, var(--p3) 60%, white);
+  --color-sage-dark:  var(--p5);
+  --color-sage-pale:  color-mix(in srgb, var(--p3) 20%, white);
+
+  --color-card-bg:    color-mix(in srgb, var(--p1) 40%, white);
+
   --color-text-dark:  #1C0608;
   --color-text-mid:   #280E12;
   --color-text-muted: #6B3040;
@@ -229,7 +320,7 @@
   }
 }
 
-/* Custom scrollbar — subtle */
+/* Custom scrollbar — theme-tinted */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -238,7 +329,7 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4C5B5;
+  background: var(--color-cream-300);
   border-radius: 2px;
 }
 
