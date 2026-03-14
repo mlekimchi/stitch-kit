@@ -97,8 +97,50 @@ export function ToolsScreen() {
   );
 }
 
+const THEMES = [
+  {
+    id: 'cozy',
+    name: 'Cozy',
+    swatches: ['#FBF6EC', '#C47A7F', '#8FAF90'],
+  },
+  {
+    id: 'botanical',
+    name: 'Botanical',
+    swatches: ['#EFEBCE', '#BB8588', '#A3A380'],
+  },
+  {
+    id: 'sky',
+    name: 'Sky',
+    swatches: ['#EEE2DF', '#5B61B2', '#6DA0E1'],
+  },
+  {
+    id: 'garden',
+    name: 'Garden',
+    swatches: ['#FFF0FC', '#DB3E8C', '#7758A3'],
+  },
+  {
+    id: 'choc-straw-milk-tea',
+    name: 'Choc Strawberry Milk Tea',
+    swatches: ['#F2CFCA', '#EC9C9D', '#7F5836'],
+  },
+  {
+    id: 'matcha-strawberry',
+    name: 'Matcha Strawberry',
+    swatches: ['#EEF2DD', '#DD716B', '#9FC76B'],
+  },
+  {
+    id: 'neapolitan',
+    name: 'Neapolitan',
+    swatches: ['#FAD6D3', '#F28AA1', '#E7AE75'],
+  },
+];
+
 function SettingsPanel() {
-  const { customPatterns } = useStore(s => ({ customPatterns: s.customPatterns }));
+  const { customPatterns, theme, setTheme } = useStore(s => ({
+    customPatterns: s.customPatterns,
+    theme: s.theme,
+    setTheme: s.setTheme,
+  }));
 
   const handleClearData = () => {
     if (window.confirm('Clear all StitchKit data? This cannot be undone.')) {
@@ -123,6 +165,34 @@ function SettingsPanel() {
           </div>
         </div>
       )}
+
+      {/* Theme picker */}
+      <div className="bg-white rounded-2xl shadow-soft border border-cream-200 p-4">
+        <h3 className="text-sm font-semibold text-gray-700 mb-3">Color Theme</h3>
+        <div className="grid grid-cols-2 gap-2">
+          {THEMES.map(t => (
+            <button
+              key={t.id}
+              onClick={() => setTheme(t.id)}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border transition-all ${
+                theme === t.id
+                  ? 'border-rose-dusty bg-rose-pale/30 shadow-soft'
+                  : 'border-cream-200 hover:border-cream-300'
+              }`}
+            >
+              <div className="flex gap-0.5 flex-shrink-0">
+                {t.swatches.map((c, i) => (
+                  <span key={i} className="w-4 h-4 rounded-full border border-white/60" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+              <span className="text-xs font-medium text-gray-700 truncate">{t.name}</span>
+              {theme === t.id && (
+                <span className="ml-auto text-rose-dusty text-xs">✓</span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* About */}
       <div className="bg-white rounded-2xl shadow-soft border border-cream-200 p-4">

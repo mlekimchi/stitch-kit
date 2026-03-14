@@ -37,7 +37,7 @@ export function ProjectCard({ project, onSurvey }: Props) {
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
   return (
-    <div className={`bg-white rounded-2xl shadow-soft border overflow-hidden transition-all ${
+    <div className={`bg-white rounded-2xl shadow-soft border transition-all ${
       project.isComplete ? 'border-sage-light' : 'border-cream-200'
     }`}>
       <div className="px-4 py-3">

@@ -5,22 +5,22 @@ export default {
     extend: {
       colors: {
         cream: {
-          50:  '#FDFAF5',
-          100: '#FBF6EC',
-          200: '#F5ECD8',
-          300: '#EDD9BF',
+          50:  'var(--color-cream-50)',
+          100: 'var(--color-cream-100)',
+          200: 'var(--color-cream-200)',
+          300: 'var(--color-cream-300)',
         },
         rose: {
-          dusty: '#C47A7F',
-          light: '#D9A5A9',
-          dark:  '#A45E63',
-          pale:  '#F2DEDE',
+          dusty: 'var(--color-rose-dusty)',
+          light: 'var(--color-rose-light)',
+          dark:  'var(--color-rose-dark)',
+          pale:  'var(--color-rose-pale)',
         },
         sage: {
-          DEFAULT: '#8FAF90',
-          light:   '#B5CDB6',
-          dark:    '#6A8F6B',
-          pale:    '#DCE9DC',
+          DEFAULT: 'var(--color-sage)',
+          light:   'var(--color-sage-light)',
+          dark:    'var(--color-sage-dark)',
+          pale:    'var(--color-sage-pale)',
         },
         yarn: {
           warm:  '#E8C5A0',

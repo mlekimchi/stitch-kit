@@ -41,6 +41,7 @@ interface AppStore {
   currentProjectId: string | null;
   activeTab:        TabName;
   timer:            TimerState;
+  theme:            string;
 
   // ── Computed helpers (not persisted)
   allPatterns:      () => Pattern[];
@@ -49,6 +50,9 @@ interface AppStore {
 
   // ── Tab
   setActiveTab: (tab: TabName) => void;
+
+  // ── Theme
+  setTheme: (theme: string) => void;
 
   // ── Projects
   addProject:    (data: Omit<Project, 'id' | 'lastActive'>) => string;
@@ -90,6 +94,7 @@ export const useStore = create<AppStore>((set, get) => ({
   currentProjectId: storage.getCurrentProjectId(),
   activeTab:        (storage.getActiveTab() as TabName) || 'counter',
   timer:            storage.getTimerState() || { ...defaultTimer },
+  theme:            storage.getTheme() || 'cozy',
 
   // ── Computed
   allPatterns: () => [...PRELOADED_PATTERNS, ...get().customPatterns],
@@ -109,6 +114,13 @@ export const useStore = create<AppStore>((set, get) => ({
   setActiveTab: (tab) => {
     storage.setActiveTab(tab);
     set({ activeTab: tab });
+  },
+
+  // ── Theme ────────────────────────────────────────────────────────────────────
+  setTheme: (theme) => {
+    storage.setTheme(theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    set({ theme });
   },
 
   // ── Projects ─────────────────────────────────────────────────────────────────

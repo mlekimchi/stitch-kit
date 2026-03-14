@@ -121,7 +121,6 @@ export function NewProjectForm({ onClose }: Props) {
               {allPatterns.map(p => (
                 <option key={p.id} value={p.id}>{p.name}</option>
               ))}
-              <option value="custom">Custom pattern</option>
             </select>
           </div>
 

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useStore } from './store/useStore';
 import { Navigation } from './components/Navigation';
 import { CounterScreen }  from './components/counter/CounterScreen';
@@ -16,6 +17,11 @@ const TAB_TITLES: Record<string, string> = {
 
 export function App() {
   const activeTab = useStore(s => s.activeTab);
+  const theme = useStore(s => s.theme);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <div className="min-h-screen bg-cream-100 flex flex-col">

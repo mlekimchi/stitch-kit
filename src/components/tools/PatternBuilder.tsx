@@ -57,7 +57,7 @@ function getToeText(construction: ToeConstruction, footLengthCm: number): string
     'Spiral Toe':
       `Knit foot until ${stopAt}cm from heel turn. Toe: [K to 2 sts before marker, K2tog] × 4 every other round until 32 sts, then every round until 8 sts. Draw yarn through and fasten.`,
     'Classic Wedge Toe':
-      `Knit foot until ${stopAt}cm from heel turn. Toe: K to 3 sts before side marker, K2tog, K1; K1, SSK; rep × 2. Work decrease rounds every other round until 16 sts. Kitchener stitch to graft toe closed.`,
+      `Knit foot until ${stopAt}cm from heel turn. Split sts evenly: sole on Needle 1, instep on Needle 2. Place BOR marker in the middle of Needle 1. Decrease Rnd: N1: K to 3 sts before marker, K2tog, K1; N2: K1, SSK, K to 3 sts before end, K2tog, K1; N1: K1, SSK, K to BOR. (−4 sts) Alternate Decrease Rnd and Plain Rnd until 40 sts remain, then Decrease Rnd every round until 20 sts remain. Knit to side of sock. Kitchener stitch to graft closed.`,
     'Star Toe':
       `Knit foot until ${stopAt}cm from heel turn. Place 4 markers at equal intervals. [K to 2 sts before marker, K2tog] × 4 every round (no plain rounds) until 8 sts remain. Draw yarn through and fasten.`,
   };

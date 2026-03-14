@@ -11,6 +11,7 @@ const KEYS = {
   CURRENT_PROJECT:   'sk:current-project-id',
   TIMER:             'sk:timer',
   ACTIVE_TAB:        'sk:active-tab',
+  THEME:             'sk:theme',
 } as const;
 
 function load<T>(key: string, fallback: T): T {
@@ -52,6 +53,9 @@ export const storage = {
 
   getActiveTab():               string { return load(KEYS.ACTIVE_TAB, 'counter'); },
   setActiveTab(tab: string): void      { save(KEYS.ACTIVE_TAB, tab); },
+
+  getTheme():               string { return load(KEYS.THEME, 'cozy'); },
+  setTheme(t: string): void        { save(KEYS.THEME, t); },
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   clearAll(): void {
