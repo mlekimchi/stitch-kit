@@ -24,7 +24,7 @@
       }
 
       .st1, .st5, .st9 {
-        stroke: color-mix(in srgb, var(--color-rose-dusty) 90%, white);
+        stroke: var(--color-rose-dusty);
       }
 
       .st2, .st3 {
