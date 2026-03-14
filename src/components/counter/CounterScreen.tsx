@@ -3,6 +3,7 @@ import { useStore } from '../../store/useStore';
 import { useSwipe } from '../../hooks/useSwipe';
 import { StitchCard } from './StitchCard';
 import { TimerSection } from './TimerSection';
+import { Survey } from '../tools/Survey';
 import type { SockNumber } from '../../types';
 
 // ── Star burst overlay ───────────────────────────────────────────────────────
@@ -49,7 +50,7 @@ export function CounterScreen() {
   const {
     currentProject, currentPattern, incrementRow, decrementRow,
     advanceSection, setCurrentSection, setSectionTotalRows, setSock,
-    stopTimer, completeProject, startSock2, theme,
+    stopTimer, completeProject, startSock2, theme, setActiveTab, setCurrentProject,
   } = useStore(s => ({
     currentProject:      s.currentProject,
     currentPattern:      s.currentPattern,
@@ -63,6 +64,8 @@ export function CounterScreen() {
     completeProject:     s.completeProject,
     startSock2:          s.startSock2,
     theme:               s.theme,
+    setActiveTab:        s.setActiveTab,
+    setCurrentProject:   s.setCurrentProject,
   }));
 
   const [showDecConfirm, setShowDecConfirm] = useState(false);
@@ -70,8 +73,23 @@ export function CounterScreen() {
   const [rowInput, setRowInput]             = useState('');
   const [showStars, setShowStars]           = useState(false);
   const [sock1JustDone, setSock1JustDone]   = useState(false);
+  const [showSurvey, setShowSurvey]         = useState(false);
 
   const starChars = STRAWBERRY_THEMES.has(theme) ? STRAWBERRY_CHARS : DEFAULT_CHARS;
+
+  const handleBothSocksDone = () => {
+    stopTimer();
+    completeProject(project!.id);
+    triggerStars();
+    // Let stars play for a moment, then slide up the survey
+    setTimeout(() => setShowSurvey(true), 900);
+  };
+
+  const handleSurveyClose = () => {
+    setShowSurvey(false);
+    setCurrentProject(null);
+    setActiveTab('projects');
+  };
 
   const project = currentProject();
   const pattern = currentPattern();
@@ -217,9 +235,7 @@ export function CounterScreen() {
                       setSock1JustDone(true);
                       triggerStars();
                     } else {
-                      stopTimer();
-                      completeProject(project.id);
-                      triggerStars();
+                      handleBothSocksDone();
                     }
                   }}
                   className="mt-2 px-10 py-4 bg-sage text-white font-semibold text-lg rounded-2xl transition-all active:scale-95"
@@ -347,6 +363,11 @@ export function CounterScreen() {
 
       {/* Timer */}
       <TimerSection />
+
+      {/* Post-completion survey — slides up after both socks done */}
+      {showSurvey && project && (
+        <Survey projectId={project.id} onClose={handleSurveyClose} />
+      )}
 
       {/* Decrement confirmation overlay */}
       {showDecConfirm && (
