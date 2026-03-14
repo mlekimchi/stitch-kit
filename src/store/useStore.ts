@@ -60,6 +60,7 @@ interface AppStore {
   deleteProject: (id: string) => void;
   setCurrentProject: (id: string | null) => void;
   completeProject:   (id: string) => void;
+  startSock2:        () => void;
 
   // ── Counter
   incrementRow: () => void;
@@ -168,6 +169,22 @@ export const useStore = create<AppStore>((set, get) => ({
 
   completeProject: (id) => {
     get().updateProject(id, { isComplete: true, dateCompleted: isoNow() });
+  },
+
+  startSock2: () => {
+    const project = get().currentProject();
+    if (!project) return;
+    const pattern = getPatternById(project.patternId, get().customPatterns);
+    if (!pattern) return;
+    const freshProgress = initSectionProgress(pattern);
+    const firstSection  = pattern.sections[0]?.id ?? '';
+    get().updateProject(project.id, {
+      currentSock:       2,
+      currentSection:    firstSection,
+      currentRow:        0,
+      sectionProgress:   freshProgress,
+      completedSections: [],
+    });
   },
 
   // ── Counter ──────────────────────────────────────────────────────────────────

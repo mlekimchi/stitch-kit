@@ -7,11 +7,13 @@ import type { SockNumber } from '../../types';
 
 // ── Star burst overlay ───────────────────────────────────────────────────────
 
-const STAR_CHARS = ['✨', '⭐', '🌟', '✨', '💫', '✨', '⭐', '🌟', '💫', '✨', '⭐', '🌟'];
+const DEFAULT_CHARS    = ['✨', '⭐', '🌟', '✨', '💫', '✨', '⭐', '🌟', '💫', '✨', '⭐', '🌟'];
+const STRAWBERRY_CHARS = ['🍓', '✨', '🌟', '🍓', '💫', '✨', '🍓', '🌟', '💫', '🍓', '✨', '🌟'];
+const STRAWBERRY_THEMES = new Set(['matcha-strawberry', 'choco-strawberry-milk-tea']);
 
-function StarBurst() {
-  const stars = STAR_CHARS.map((char, i) => {
-    const angle  = (i / STAR_CHARS.length) * 360;
+function StarBurst({ chars }: { chars: string[] }) {
+  const stars = chars.map((char, i) => {
+    const angle  = (i / chars.length) * 360;
     const dist   = 70 + (i % 3) * 35;
     const tx     = Math.cos((angle * Math.PI) / 180) * dist;
     const ty     = Math.sin((angle * Math.PI) / 180) * dist;
@@ -47,7 +49,7 @@ export function CounterScreen() {
   const {
     currentProject, currentPattern, incrementRow, decrementRow,
     advanceSection, setCurrentSection, setSectionTotalRows, setSock,
-    stopTimer, completeProject,
+    stopTimer, completeProject, startSock2, theme,
   } = useStore(s => ({
     currentProject:      s.currentProject,
     currentPattern:      s.currentPattern,
@@ -59,12 +61,17 @@ export function CounterScreen() {
     setSock:             s.setSock,
     stopTimer:           s.stopTimer,
     completeProject:     s.completeProject,
+    startSock2:          s.startSock2,
+    theme:               s.theme,
   }));
 
   const [showDecConfirm, setShowDecConfirm] = useState(false);
   const [editingRows, setEditingRows]       = useState(false);
   const [rowInput, setRowInput]             = useState('');
   const [showStars, setShowStars]           = useState(false);
+  const [sock1JustDone, setSock1JustDone]   = useState(false);
+
+  const starChars = STRAWBERRY_THEMES.has(theme) ? STRAWBERRY_CHARS : DEFAULT_CHARS;
 
   const project = currentProject();
   const pattern = currentPattern();
@@ -177,7 +184,7 @@ export function CounterScreen() {
 
       {/* ── Finishing section ── special UI, no counter */}
       {isFinishing ? (
-        <div className="bg-white rounded-3xl shadow-card border border-sage-light overflow-hidden">
+        <div className="relative bg-white rounded-3xl shadow-card border border-sage-light">
           <div className="px-6 py-10 text-center flex flex-col items-center gap-5">
             <span className="text-5xl">🧶</span>
             <div>
@@ -186,19 +193,49 @@ export function CounterScreen() {
                 {section?.baseInstruction ?? 'Weave in ends.'}
               </p>
             </div>
-            <button
-              onClick={() => {
-                stopTimer();
-                completeProject(project.id);
-                triggerStars();
-              }}
-              className="mt-2 px-10 py-4 bg-sage text-white font-semibold text-lg rounded-2xl transition-all active:scale-95"
-              style={{ animation: 'done-pulse 2s ease-in-out infinite' }}
-            >
-              Done! 🎉
-            </button>
-            <p className="text-xs text-gray-400">This will mark your project as complete</p>
+
+            {sock1JustDone ? (
+              /* ── Sock 1 complete — offer sock 2 ── */
+              <div className="flex flex-col items-center gap-4 w-full">
+                <p className="text-base font-semibold text-sage-dark">🧦 Sock 1 complete!</p>
+                <button
+                  onClick={() => {
+                    setSock1JustDone(false);
+                    startSock2();
+                  }}
+                  className="w-full max-w-xs px-8 py-3.5 bg-rose-dusty text-white font-semibold text-base rounded-2xl transition-all active:scale-95 shadow-soft"
+                >
+                  Start Sock 2 →
+                </button>
+              </div>
+            ) : (
+              /* ── Main done button ── */
+              <>
+                <button
+                  onClick={() => {
+                    if (project.currentSock === 1) {
+                      setSock1JustDone(true);
+                      triggerStars();
+                    } else {
+                      stopTimer();
+                      completeProject(project.id);
+                      triggerStars();
+                    }
+                  }}
+                  className="mt-2 px-10 py-4 bg-sage text-white font-semibold text-lg rounded-2xl transition-all active:scale-95"
+                  style={{ animation: 'done-pulse 2s ease-in-out infinite' }}
+                >
+                  {project.currentSock === 1 ? 'Sock 1 done! 🧦' : 'Both socks done! 🎉'}
+                </button>
+                <p className="text-xs text-gray-400">
+                  {project.currentSock === 1
+                    ? 'Tap when sock 1 is finished'
+                    : 'This will mark your project as complete'}
+                </p>
+              </>
+            )}
           </div>
+          {showStars && <StarBurst chars={starChars} />}
         </div>
       ) : (
         /* ── Normal row counter ── */
@@ -269,7 +306,7 @@ export function CounterScreen() {
           </div>
 
           {/* Star burst — anchored to counter card, bursts from centre of number */}
-          {showStars && <StarBurst />}
+          {showStars && <StarBurst chars={starChars} />}
         </div>
       )}
 
