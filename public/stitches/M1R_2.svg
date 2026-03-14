@@ -4,7 +4,7 @@
   <defs>
     <style>
       .st0 {
-        fill: var(--color-rose-dusty);
+        fill: var(--color-rose-dark);
       }
 
       .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10, .st11, .st12, .st13 {
@@ -16,7 +16,7 @@
       }
 
       .st1, .st7, .st9 {
-        stroke: color-mix(in srgb, var(--color-rose-dark) 50%, white);
+        stroke: var(--color-rose-light);
       }
 
       .st2, .st3, .st4, .st5, .st9, .st13 {
@@ -28,11 +28,11 @@
       }
 
       .st2, .st4, .st8, .st12 {
-        stroke: var(--color-rose-dark);
+        stroke: color-mix(in srgb, var(--color-rose-dusty) 90%, white);
       }
 
       .st3, .st5 {
-        stroke: color-mix(in srgb, var(--color-rose-dark) 20%, white);
+        stroke: var(--color-rose-pale);
       }
 
       .st5, .st15 {
@@ -40,7 +40,7 @@
       }
 
       .st6, .st11, .st14 {
-        stroke: var(--color-rose-dusty);
+        stroke: var(--color-rose-dark);
       }
 
       .st6, .st14 {
@@ -48,7 +48,7 @@
       }
 
       .st16, .st8 {
-        fill: var(--color-rose-dark);
+        fill: color-mix(in srgb, var(--color-rose-dusty) 90%, white);
       }
 
       .st7, .st10 {
@@ -64,7 +64,7 @@
       }
 
       .st13 {
-        stroke: var(--color-rose-dusty);
+        stroke: var(--color-rose-dark);
       }
     </style>
   </defs>
