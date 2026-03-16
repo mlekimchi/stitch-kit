@@ -14,7 +14,7 @@ interface Props {
 
 // Render instruction text, making stitch abbreviations into tappable buttons
 function InstructionText({ text, onAbbrClick }: { text: string; onAbbrClick: (abbr: string) => void }) {
-  const abbrs = ['K2tog', 'SKP', 'P2tog', 'Sl1 pwise wyib', 'Sl1 pwise wyif', 'Ktbl', 'K2P2', 'K1P1'];
+  const abbrs = ['K2tog', 'SKP', 'P2tog', 'M1L', 'M1R', 'Sl1 pwise wyib', 'Sl1 pwise wyif', 'Ktbl', 'K2P2', 'K1P1'];
   // Sort by length desc so longer abbrs match first
   const sorted = [...abbrs].sort((a, b) => b.length - a.length);
   const regex = new RegExp(`(${sorted.map(a => a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
