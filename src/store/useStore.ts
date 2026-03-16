@@ -182,11 +182,12 @@ export const useStore = create<AppStore>((set, get) => ({
     const freshProgress = initSectionProgress(pattern);
     const firstSection  = pattern.sections[0]?.id ?? '';
     get().updateProject(project.id, {
-      currentSock:       2,
-      currentSection:    firstSection,
-      currentRow:        0,
-      sectionProgress:   freshProgress,
-      completedSections: [],
+      currentSock:           2,
+      currentSection:        firstSection,
+      currentRow:            0,
+      sectionProgress:       freshProgress,
+      sock1SectionProgress:  project.sectionProgress,
+      completedSections:     [],
     });
   },
 

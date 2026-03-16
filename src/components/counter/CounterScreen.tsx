@@ -314,6 +314,12 @@ export function CounterScreen() {
               <p className="mt-2 text-xs text-gray-400">
                 💡 Suggested: ~{section?.defaultRows} rows
               </p>
+              {project.currentSock === 2 && section &&
+                project.sock1SectionProgress?.[section.id]?.actualRows != null && (
+                <p className="mt-1 text-xs text-gray-400">
+                  🧦 Sock 1 knitted: {project.sock1SectionProgress[section.id].actualRows} rows
+                </p>
+              )}
             </div>
 
             {/* Actual rows logged */}

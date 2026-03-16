@@ -39,6 +39,7 @@ export interface Project {
   currentRow: number;
   currentSock: SockNumber;
   sectionProgress: Record<string, SectionProgress>;
+  sock1SectionProgress?: Record<string, SectionProgress>;
   completedSections: string[];
   isComplete: boolean;
   notes: Record<string, string>;
