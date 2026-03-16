@@ -67,6 +67,9 @@ interface AppStore {
   decrementRow: () => void;
   setCurrentSection: (sectionId: string) => void;
   setSectionTotalRows: (sectionId: string, total: number) => void;
+  setSectionActualRows: (sectionId: string, rows: number) => void;
+  setSectionTargetLength: (sectionId: string, length: number, unit: 'inches' | 'cm') => void;
+  completeMeasurementSection: (sectionId: string) => void;
   advanceSection: () => void;
   setSock: (sock: SockNumber) => void;
 
@@ -240,6 +243,39 @@ export const useStore = create<AppStore>((set, get) => ({
     const newProgress = {
       ...project.sectionProgress,
       [sectionId]: { ...prev, totalRows: total },
+    };
+    get().updateProject(project.id, { sectionProgress: newProgress });
+  },
+
+  setSectionActualRows: (sectionId, rows) => {
+    const project = get().currentProject();
+    if (!project) return;
+    const prev = project.sectionProgress[sectionId] ?? { currentRow: 0, totalRows: 1, completed: false };
+    const newProgress = {
+      ...project.sectionProgress,
+      [sectionId]: { ...prev, actualRows: rows },
+    };
+    get().updateProject(project.id, { sectionProgress: newProgress });
+  },
+
+  setSectionTargetLength: (sectionId, length, unit) => {
+    const project = get().currentProject();
+    if (!project) return;
+    const prev = project.sectionProgress[sectionId] ?? { currentRow: 0, totalRows: 1, completed: false };
+    const newProgress = {
+      ...project.sectionProgress,
+      [sectionId]: { ...prev, targetLength: length, targetLengthUnit: unit },
+    };
+    get().updateProject(project.id, { sectionProgress: newProgress });
+  },
+
+  completeMeasurementSection: (sectionId) => {
+    const project = get().currentProject();
+    if (!project) return;
+    const prev = project.sectionProgress[sectionId] ?? { currentRow: 0, totalRows: 1, completed: false };
+    const newProgress = {
+      ...project.sectionProgress,
+      [sectionId]: { ...prev, completed: true, completedAt: isoNow() },
     };
     get().updateProject(project.id, { sectionProgress: newProgress });
   },

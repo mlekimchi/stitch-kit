@@ -50,30 +50,39 @@ export function CounterScreen() {
   const {
     currentProject, currentPattern, incrementRow, decrementRow,
     advanceSection, setCurrentSection, setSectionTotalRows, setSock,
+    setSectionActualRows, setSectionTargetLength, completeMeasurementSection,
     stopTimer, completeProject, startSock2, theme, setActiveTab, setCurrentProject,
   } = useStore(s => ({
-    currentProject:      s.currentProject,
-    currentPattern:      s.currentPattern,
-    incrementRow:        s.incrementRow,
-    decrementRow:        s.decrementRow,
-    advanceSection:      s.advanceSection,
-    setCurrentSection:   s.setCurrentSection,
-    setSectionTotalRows: s.setSectionTotalRows,
-    setSock:             s.setSock,
-    stopTimer:           s.stopTimer,
-    completeProject:     s.completeProject,
-    startSock2:          s.startSock2,
-    theme:               s.theme,
-    setActiveTab:        s.setActiveTab,
-    setCurrentProject:   s.setCurrentProject,
+    currentProject:             s.currentProject,
+    currentPattern:             s.currentPattern,
+    incrementRow:               s.incrementRow,
+    decrementRow:               s.decrementRow,
+    advanceSection:             s.advanceSection,
+    setCurrentSection:          s.setCurrentSection,
+    setSectionTotalRows:        s.setSectionTotalRows,
+    setSectionActualRows:       s.setSectionActualRows,
+    setSectionTargetLength:     s.setSectionTargetLength,
+    completeMeasurementSection: s.completeMeasurementSection,
+    setSock:                    s.setSock,
+    stopTimer:                  s.stopTimer,
+    completeProject:            s.completeProject,
+    startSock2:                 s.startSock2,
+    theme:                      s.theme,
+    setActiveTab:               s.setActiveTab,
+    setCurrentProject:          s.setCurrentProject,
   }));
 
-  const [showDecConfirm, setShowDecConfirm] = useState(false);
-  const [editingRows, setEditingRows]       = useState(false);
-  const [rowInput, setRowInput]             = useState('');
-  const [showStars, setShowStars]           = useState(false);
-  const [sock1JustDone, setSock1JustDone]   = useState(false);
-  const [showSurvey, setShowSurvey]         = useState(false);
+  const [showDecConfirm, setShowDecConfirm]   = useState(false);
+  const [editingRows, setEditingRows]         = useState(false);
+  const [rowInput, setRowInput]               = useState('');
+  const [showStars, setShowStars]             = useState(false);
+  const [sock1JustDone, setSock1JustDone]     = useState(false);
+  const [showSurvey, setShowSurvey]           = useState(false);
+  // measurement section state
+  const [displayUnit, setDisplayUnit]         = useState<'cm' | 'inches'>('cm');
+  const [editingTarget, setEditingTarget]     = useState(false);
+  const [targetInput, setTargetInput]         = useState('');
+  const [actualRowsInput, setActualRowsInput] = useState('');
 
   const starChars = STRAWBERRY_THEMES.has(theme) ? STRAWBERRY_CHARS : DEFAULT_CHARS;
 
@@ -100,7 +109,25 @@ export function CounterScreen() {
   const totalRows  = progress?.totalRows ?? 1;
   const pct        = totalRows > 0 ? Math.min(100, (currentRow / totalRows) * 100) : 0;
 
-  const isFinishing = section?.id === 'finishing';
+  const isFinishing      = section?.id === 'finishing';
+  const isMeasurement    = section?.isMeasurementBased ?? false;
+
+  // Measurement section helpers
+  const storedTarget     = progress?.targetLength ?? section?.suggestedLength ?? null;
+  const storedUnit       = progress?.targetLengthUnit ?? section?.suggestedLengthUnit ?? 'cm';
+  function toDisplayUnit(val: number, from: string, to: string): number {
+    if (from === to) return val;
+    return from === 'cm' ? val / 2.54 : val * 2.54;
+  }
+  const displayTarget = storedTarget !== null
+    ? parseFloat(toDisplayUnit(storedTarget, storedUnit, displayUnit).toFixed(1))
+    : null;
+
+  // Sync actualRowsInput when section changes
+  useEffect(() => {
+    setActualRowsInput(progress?.actualRows != null ? String(progress.actualRows) : '');
+    setEditingTarget(false);
+  }, [project?.currentSection]);
 
   // Fire stars when row hits the target
   const prevRowRef = useRef(currentRow);
@@ -200,6 +227,120 @@ export function CounterScreen() {
         </select>
       </div>
 
+      {/* ── Measurement section (Leg / Foot) ── */}
+      {isMeasurement && !isFinishing && (
+        <div className="relative bg-white rounded-3xl shadow-card border border-cream-200">
+          <div className="px-6 py-6">
+            {/* Unit toggle + Mark done */}
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex bg-cream-200 rounded-xl p-0.5">
+                {(['cm', 'inches'] as const).map(u => (
+                  <button
+                    key={u}
+                    onClick={() => setDisplayUnit(u)}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      displayUnit === u
+                        ? 'bg-white text-rose-dusty shadow-soft'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    {u === 'cm' ? 'cm' : 'in'}
+                  </button>
+                ))}
+              </div>
+              {progress?.completed ? (
+                <span className="text-sm font-semibold text-sage">Done ✓</span>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (section) completeMeasurementSection(section.id);
+                    triggerStars();
+                  }}
+                  className="px-4 py-2 bg-sage text-white font-semibold text-sm rounded-xl transition-all active:scale-95 shadow-soft"
+                >
+                  Mark done ✓
+                </button>
+              )}
+            </div>
+
+            {/* Target length */}
+            <div className="text-center mb-5">
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">
+                Target length
+              </p>
+              {editingTarget ? (
+                <div className="flex items-center justify-center gap-2" onClick={e => e.stopPropagation()}>
+                  <input
+                    type="number"
+                    step="0.5"
+                    value={targetInput}
+                    onChange={e => setTargetInput(e.target.value)}
+                    className="w-24 text-center border border-cream-200 rounded-lg px-2 py-1 text-lg focus:outline-none focus:ring-1 focus:ring-rose-dusty"
+                    autoFocus
+                  />
+                  <span className="text-sm text-gray-500">{displayUnit}</span>
+                  <button
+                    onClick={() => {
+                      const n = parseFloat(targetInput);
+                      if (!isNaN(n) && n > 0 && section) {
+                        // store in the display unit the user entered
+                        setSectionTargetLength(section.id, n, displayUnit);
+                      }
+                      setEditingTarget(false);
+                    }}
+                    className="px-3 py-1 bg-sage text-white rounded-lg text-sm"
+                  >
+                    Set
+                  </button>
+                  <button onClick={() => setEditingTarget(false)} className="px-2 py-1 text-gray-400 text-sm">✕</button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-5xl font-bold text-gray-800">
+                    {displayTarget ?? '—'}
+                  </span>
+                  <span className="text-xl text-gray-500">{displayUnit}</span>
+                  <button
+                    onClick={() => {
+                      setTargetInput(displayTarget != null ? String(displayTarget) : '');
+                      setEditingTarget(true);
+                    }}
+                    className="text-xs text-gray-400 underline underline-offset-2"
+                  >
+                    edit
+                  </button>
+                </div>
+              )}
+              <p className="mt-2 text-xs text-gray-400">
+                💡 Suggested: ~{section?.defaultRows} rows
+              </p>
+            </div>
+
+            {/* Actual rows logged */}
+            <div className="border-t border-cream-200 pt-4">
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">
+                Rows actually knitted
+              </p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={actualRowsInput}
+                  onChange={e => setActualRowsInput(e.target.value)}
+                  onBlur={() => {
+                    const n = parseInt(actualRowsInput);
+                    if (!isNaN(n) && n >= 0 && section) setSectionActualRows(section.id, n);
+                  }}
+                  className="w-24 text-center border border-cream-200 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-rose-dusty"
+                  placeholder="e.g. 42"
+                />
+                <span className="text-xs text-gray-400">rows (log when done)</span>
+              </div>
+            </div>
+          </div>
+          {showStars && <StarBurst chars={starChars} />}
+        </div>
+      )}
+
       {/* ── Finishing section ── special UI, no counter */}
       {isFinishing ? (
         <div className="relative bg-white rounded-3xl shadow-card border border-sage-light">
@@ -253,7 +394,7 @@ export function CounterScreen() {
           </div>
           {showStars && <StarBurst chars={starChars} />}
         </div>
-      ) : (
+      ) : !isMeasurement ? (
         /* ── Normal row counter ── */
         <div
           className="relative rounded-3xl shadow-card border border-cream-200 select-none cursor-pointer transition-all duration-500"
@@ -324,7 +465,7 @@ export function CounterScreen() {
           {/* Star burst — anchored to counter card, bursts from centre of number */}
           {showStars && <StarBurst chars={starChars} />}
         </div>
-      )}
+      ) : null}
 
       {/* Row instruction */}
       {!isFinishing && (rowInstr || section?.baseInstruction) && (

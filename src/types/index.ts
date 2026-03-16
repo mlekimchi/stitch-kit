@@ -19,6 +19,10 @@ export interface SectionProgress {
   completed: boolean;
   startedAt?: string;
   completedAt?: string;
+  // measurement-based sections (leg, foot)
+  actualRows?: number;
+  targetLength?: number;
+  targetLengthUnit?: 'inches' | 'cm';
 }
 
 export interface Project {
@@ -60,6 +64,10 @@ export interface PatternSection {
   repeatFromRow?: number;
   specialStitches: string[];
   notes?: string;
+  // measurement-based sections knit to a target length rather than a row count
+  isMeasurementBased?: boolean;
+  suggestedLength?: number;
+  suggestedLengthUnit?: 'inches' | 'cm';
 }
 
 export interface Pattern {
